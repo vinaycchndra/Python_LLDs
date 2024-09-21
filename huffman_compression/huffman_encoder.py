@@ -98,28 +98,46 @@ class HuffmanEncoder:
         code.pop()
         
     def encode_text(self):
+        # We are trying to avoid first converting the input text to directly the strings of 0 and 1 which will cause more memory required compared 
+        # to the actual size of the input string as length of huffman coded string of 0 and 1 will be more and will actully require more size.
+        # So we mantain a buffer que which waits until the size of encoded string of 0 and 1 is less than 8 as soon as its length reaches >= 8
+        # the que pops up the 8 bits string and  the corresponding 8 bit string is converted to the corresponding ascii character integer and saved 
+        # saved into the byte array. Thus we are doing it in a chunk by chunk manner.
+
+        # Total bytes required to save the encoded string
         total_bytes = self.get_max_encoded_bytes_required()
         
+        # if total bytes are less than 1 in that case the left over encoded string is saved as strings only in non_encoded_text variable 
         if total_bytes>0:
             byte_array = bytearray(total_bytes)
             byte_index = 0
 
+        # Buffer que to mantain the 0 and 1 string of the encoded text for conversion into the byte character.
         encode_que = deque()
 
+        # Encoder loop iterates through the text and converts every character to corresponding huffman code and combinations of 
+        # the huffman code is converted into the corresponding byte character.
+         
         for char in self.text:
             encode_que.extend(self.encode_map.get(char))
             if encode_que.__len__()>=8:
-                count = 0
-                binary_string_arr = []
-                
-                while count<8:
-                    binary_string_arr.append(encode_que.popleft())
-                    count += 1
-                
-                byte_value = int("".join(binary_string_arr), 2)
+                while len(encode_que)//8 > 0:
+                    binary_string_arr = []
+                    for _ in range(8):
+                        binary_string_arr.append(encode_que.popleft())
+                        
+                    # Converting 8 bit string to the corresponding integer value
+                    byte_value = int("".join(binary_string_arr), 2)
+
+                # Integer value is now assigned to the byte array
                 byte_array[byte_index] = byte_value
+                
+                # incrementing the byte array index
                 byte_index += 1
+        # Assigning the byte array to the encoded text        
         self.encoded_text = byte_array
+
+        # Collecting the left over string of 0 and 1 but can not make a byte
         if encode_que.__len__()>0:
             self.non_encoded_text = "".join(encode_que)
 
