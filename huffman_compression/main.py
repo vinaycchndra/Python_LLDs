@@ -14,18 +14,21 @@ encode_input_text = encoder.get_encoded_text()
 decode_map = encoder.get_decode_key_map()
 
 print(encode_input_text)
+print(encoder.non_encoded_text)
+print(encoder.get_max_encoded_bytes_required())
+print(decode_map)
+print(len(encoder.encoded_text))
+# word = ""
+# decoded_text_arr = []
+# for char in encode_input_text:
+#     word += char
+#     if word in decode_map:
+#         decoded_text_arr.append(decode_map.get(word))
+#         word = ""
 
-word = ""
-decoded_text_arr = []
-for char in encode_input_text:
-    word += char
-    if word in decode_map:
-        decoded_text_arr.append(decode_map.get(word))
-        word = ""
+# decoded_text = "".join(decoded_text_arr)
 
-decoded_text = "".join(decoded_text_arr)
-
-print("Decoded text is over here:    ", decoded_text)
-print("Input   text is over here:    ", input_text)
+# print("Decoded text is over here:    ", decoded_text)
+# print("Input   text is over here:    ", input_text)
 
 

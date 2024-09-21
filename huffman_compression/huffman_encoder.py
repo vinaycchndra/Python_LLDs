@@ -1,4 +1,10 @@
+# byte_value = int(binary_str, 2)
+# byte_array[0] = byte_value
+# print(sys.getsizeof(byte_array))
+
+# print(byte_array)
 from heapq import heappop, heappush
+from collections import deque
 
 class HuffmanEncoder: 
     class Node: 
@@ -21,6 +27,7 @@ class HuffmanEncoder:
         self.huffman_tree = None
         self.encode_map = {}
         self.encoded_text = None
+        self.non_encoded_text = None
         self.decode_map = {}
 
     def encode(self): 
@@ -41,8 +48,6 @@ class HuffmanEncoder:
     
         # Generate decode key for the encoded text to decode it when required.
         self.create_decode_map()
-
-
 
     def countFreq(self):
         for char in self.text:
@@ -77,10 +82,9 @@ class HuffmanEncoder:
         self.huffman_tree = self.heap.pop()
 
     def recursively_encode(self, node, code = []):
-
         # Creating the code by traversing the huffman tree.
         if node.left is None and node.right is None:
-            self.encode_map[node.key] = "".join(code)
+            self.encode_map[node.key] = code.copy()
             return 
         
         # Traversing left portion of the tree to generate the code value for the character in the text
@@ -94,19 +98,50 @@ class HuffmanEncoder:
         code.pop()
         
     def encode_text(self):
-        encode_string_text_arr = []
+        total_bytes = self.get_max_encoded_bytes_required()
+        
+        if total_bytes>0:
+            byte_array = bytearray(total_bytes)
+            byte_index = 0
+
+        encode_que = deque()
+
         for char in self.text:
-            encode_string_text_arr.append(self.encode_map.get(char))
-        self.encoded_text = "".join(encode_string_text_arr)
+            encode_que.extend(self.encode_map.get(char))
+            if encode_que.__len__()>=8:
+                count = 0
+                binary_string_arr = []
+                
+                while count<8:
+                    binary_string_arr.append(encode_que.popleft())
+                    count += 1
+                
+                byte_value = int("".join(binary_string_arr), 2)
+                byte_array[byte_index] = byte_value
+                byte_index += 1
+        self.encoded_text = byte_array
+        if encode_que.__len__()>0:
+            self.non_encoded_text = "".join(encode_que)
 
     def create_decode_map(self):
         # Creating a decoding map from encode map
         self.decode_map = {}
         for key, value in self.encode_map.items():
-            self.decode_map[value] = key
+            self.decode_map["".join(value)] = key
 
     def get_encoded_text(self):
         return self.encoded_text
     
     def get_decode_key_map(self):
         return self.decode_map
+    
+    def get_max_encoded_bytes_required(self):
+        # Getting the total characters in the encoded text if that were directly saved as strings of 0 and 1.
+        total_size = 0
+        for key in self.freq_map:
+            total_size += self.freq_map.get(key, 0)*len(self.encode_map.get(key, ""))
+        
+        # Dividing the total count by 8 to get total bytes array allocation initially to directly encode the characters into the byte
+        return  total_size//8
+        
+        
