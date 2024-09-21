@@ -1,8 +1,3 @@
-# byte_value = int(binary_str, 2)
-# byte_array[0] = byte_value
-# print(sys.getsizeof(byte_array))
-
-# print(byte_array)
 from heapq import heappop, heappush
 from collections import deque
 
@@ -125,7 +120,7 @@ class HuffmanEncoder:
                     binary_string_arr = []
                     for _ in range(8):
                         binary_string_arr.append(encode_que.popleft())
-                        
+
                     # Converting 8 bit string to the corresponding integer value
                     byte_value = int("".join(binary_string_arr), 2)
 
@@ -134,10 +129,11 @@ class HuffmanEncoder:
                 
                 # incrementing the byte array index
                 byte_index += 1
+
         # Assigning the byte array to the encoded text        
         self.encoded_text = byte_array
 
-        # Collecting the left over string of 0 and 1 but can not make a byte
+        # Collecting the left over string of 0 and 1 that could not make it to a byte
         if encode_que.__len__()>0:
             self.non_encoded_text = "".join(encode_que)
 
