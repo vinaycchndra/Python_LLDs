@@ -79,6 +79,8 @@ class HuffmanEncoder:
     def recursively_encode(self, node, code = []):
         # Creating the code by traversing the huffman tree.
         if node.left is None and node.right is None:
+            if len(code) == 0:
+                code.append("0")
             self.encode_map[node.key] = code.copy()
             return 
         
@@ -100,18 +102,19 @@ class HuffmanEncoder:
         # saved into the byte array. Thus we are doing it in a chunk by chunk manner.
 
         # Total bytes required to save the encoded string
-        total_bytes = self.get_max_encoded_bytes_required()
+        total_bytes, left_over_length = self.get_max_encoded_bytes_required()
         
-        # if total bytes are less than 1 in that case the left over encoded string is saved as strings only in non_encoded_text variable 
-        if total_bytes>0:
-            byte_array = bytearray(total_bytes)
-            byte_index = 0
+        # initialising the byte array with total complete byte + left over character lenght + left over character length counting paramerter (1 byte size)
+        byte_array = bytearray(total_bytes+left_over_length+1)
+
+        # At 0th byte we will save the count of leftover characters in the encoded byte data
+        byte_array[0] = left_over_length
+        byte_index = 1
 
         # Buffer que to mantain the 0 and 1 string of the encoded text for conversion into the byte character.
         encode_que = deque()
 
-        # Encoder loop iterates through the text and converts every character to corresponding huffman code and combinations of 
-        # the huffman code is converted into the corresponding byte character.
+        # Encoder loop iterates through the text and converts every character  
          
         for char in self.text:
             encode_que.extend(self.encode_map.get(char))
@@ -130,12 +133,16 @@ class HuffmanEncoder:
                 # incrementing the byte array index
                 byte_index += 1
 
+        # Collecting the left over string of 0 and 1 that could not make it to a byte for example leftover string of length between 1-7 bits
+        # Will just take their ascii value and will store that to the byte_array.
+        if encode_que.__len__()>0:
+            left_over_text_length = len(encode_que)
+            for _ in range(left_over_text_length):
+                byte_array[byte_index] = ord(encode_que.popleft())
+                byte_index += 1
+        
         # Assigning the byte array to the encoded text        
         self.encoded_text = byte_array
-
-        # Collecting the left over string of 0 and 1 that could not make it to a byte
-        if encode_que.__len__()>0:
-            self.non_encoded_text = "".join(encode_que)
 
     def create_decode_map(self):
         # Creating a decoding map from encode map
@@ -151,11 +158,13 @@ class HuffmanEncoder:
     
     def get_max_encoded_bytes_required(self):
         # Getting the total characters in the encoded text if that were directly saved as strings of 0 and 1.
+        # This is required to preallocate the bytes array so that dynamic memory allocation for the bytes_array 
+        # can be avoided.
         total_size = 0
         for key in self.freq_map:
             total_size += self.freq_map.get(key, 0)*len(self.encode_map.get(key, ""))
         
         # Dividing the total count by 8 to get total bytes array allocation initially to directly encode the characters into the byte
-        return  total_size//8
+        return  total_size//8, total_size%8
         
         

@@ -1,7 +1,7 @@
 import random
 from huffman_encoder import HuffmanEncoder
 
-input_text = "a"*5+"b"*5+"c"*12+"d"*13+"e"*16+"f"*45+"g"*45
+input_text = "a"*10 #+"b"*5+"c"*12+"d"*13+"e"*16+"f"*45+"g"*45
 input_text = ''.join(random.sample(input_text,len(input_text)))
 
 # freq_map = {"a": 5, "b": 5, "c": 12, "d": 13, "e": 16, "f": 45}
@@ -14,7 +14,10 @@ encode_input_text = encoder.get_encoded_text()
 decode_map = encoder.get_decode_key_map()
 
 print(encode_input_text)
-print(encoder.non_encoded_text)
+print(encoder.freq_map)
+print(encoder.encode_map)
+print(encoder.get_max_encoded_bytes_required())
+# print(encoder.non_encoded_text)
 print(encoder.get_max_encoded_bytes_required())
 print(decode_map)
 print(len(encoder.encoded_text))
