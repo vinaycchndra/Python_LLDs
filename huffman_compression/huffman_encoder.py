@@ -40,7 +40,7 @@ class HuffmanEncoder:
 
         # Generate decode key for the encoded text to decode it when required.
         self.create_decode_map()
-        
+
         # Generates encoded text based on the key and frequency map
         self.encode_text()    
     
@@ -159,7 +159,6 @@ class HuffmanEncoder:
         que = deque()
         for huffman_code, char in self.decode_map.items():
             que.extend(self.encode_map_keys_value_pairs(char, huffman_code))
-
         header_length_string = format(len(que), '016b')
 
         # Now we are saving the total length of the decode map in 16 bit number 
@@ -225,24 +224,3 @@ class HuffmanEncoder:
         padding_count = (8-total_size%8)%8
         return  padding_count
     
-    def decode_map_keys_value_pair(self, ascii_arr: list):
-        section_len = ascii_arr[0]
-        
-        # character to replace in place of the huffman code
-        key = chr(ascii_arr[1])
-        
-        # padding into the huffman code for the key 
-        padding_count = ascii_arr[2]
-        
-        # extracting the huffman code 
-        huffman_code_arr = []
-        
-        for ascii_index in range(3, section_len):
-            binary_string = format(ascii_arr[ascii_index], '08b')
-            huffman_code_arr.append(binary_string)
-        
-        # Removing the padded extra character
-        if padding_count>0:
-            huffman_code_arr[-1] = huffman_code_arr[-1][:8-padding_count]
-        huffman_code = "".join(huffman_code_arr)
-        return key, huffman_code
