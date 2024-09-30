@@ -75,15 +75,15 @@ class HuffmanDecoder:
         temp_arr.extend(list(format(self.encode_ascii_array.popleft(), '08b')))
 
         # Removing the padded characters from it 
-        while padding_count > 0:
+        for _ in range(padding_count):
             temp_arr.pop()
 
         # Collecting the final huffman code
         while temp_arr.__len__() > 0:
             temp_code += temp_arr.popleft()
-
-        if len(temp_code) > 0:
-            decoded_text.append(self.decode_map.get(temp_code))
+            if temp_code in self.decode_map:
+                    decoded_text.append(self.decode_map.get(temp_code))
+                    temp_code = ""
 
         self.decoded_text_arr = decoded_text
             
