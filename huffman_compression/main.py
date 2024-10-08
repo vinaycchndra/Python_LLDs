@@ -1,31 +1,11 @@
 import random
-from huffman_encoder import HuffmanEncoder
+from file_handler import FileHandler
 
-input_text = "a"*5+"b"*5+"c"*12+"d"*13+"e"*16+"f"*45+"g"*45
-input_text = ''.join(random.sample(input_text,len(input_text)))
+input_file_path = "./sample.txt"
+filhandler = FileHandler(compress = True, input_file_path=input_file_path)
+filhandler.process()
 
-# freq_map = {"a": 5, "b": 5, "c": 12, "d": 13, "e": 16, "f": 45}
-encoder = HuffmanEncoder(input_text)
+output_file_path = "./sample_compressed.bin"
 
-# Calls encoder
-encoder.encode()
-
-encode_input_text = encoder.get_encoded_text()
-decode_map = encoder.get_decode_key_map()
-
-print(encode_input_text)
-
-word = ""
-decoded_text_arr = []
-for char in encode_input_text:
-    word += char
-    if word in decode_map:
-        decoded_text_arr.append(decode_map.get(word))
-        word = ""
-
-decoded_text = "".join(decoded_text_arr)
-
-print("Decoded text is over here:    ", decoded_text)
-print("Input   text is over here:    ", input_text)
-
-
+filhandler = FileHandler(compress = False, input_file_path=output_file_path)
+filhandler.process()

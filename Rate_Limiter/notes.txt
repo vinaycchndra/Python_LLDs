@@ -1,0 +1,13 @@
+1.  Rate limiting algorithms are implemented, the resources that I have used to understand the rate limiting algorithms are here: 
+    # https://www.youtube.com/watch?v=X5daFTDfy2g
+
+2. The api gateways are the best places where we can plant the rate limiting endpoints since  the api gateways are used for the 
+   authentication and routing of the requests coming into the system.
+
+3. So here at the authentication level we can identify the rate limiting since with the api key or the json web token we can identify the user and 
+    can keep the track of the past request and current request for approving the request.
+
+4. The token bucket algorithm fills the tokens to the bucket after a certain period of time as configured for example if the allowed requests are 10 requests/second 
+    then in a second 10 token are added to the bucket. If the bucket is full the added tokens are discarded. However, if you add 10 tokens in a go considering above allowed 
+    rate limit it may cause more load in the system as client can utilise all the ten requests in a burst and server may be overloaded, so we can uniformly 
+    add the token to the bucket for example 1 token every 100 milliseconds, this will ensure the more uniform load distribution on to the system.
