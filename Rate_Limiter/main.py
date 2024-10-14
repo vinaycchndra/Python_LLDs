@@ -3,7 +3,7 @@ from RateLimit import RateLimiter
 import time
 
 
-# mimicking the request of the user from a maximum user base of 5000 clients and maximum rate limit possible is 10 and every user is given 
+# This function is mimicking the request of the user from a maximum user base of 5000 clients and maximum rate limit possible is 10 and every user is given 
 # equal share of requests. 
 async def coming_requsts(rl, rate_limiter_loop):
     t1 = time.time()
