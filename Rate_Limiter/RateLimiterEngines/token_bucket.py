@@ -10,6 +10,7 @@ class TokenBucket:
 
     async def start(self):
         try:
+            # Bucket refilling loop
             while True: 
                 async with self.lock:
                     t1 = time.time()
@@ -17,7 +18,7 @@ class TokenBucket:
                         if self.user_dict[key] != self.max_tokens:
                             self.user_dict[key] = self.user_dict[key]+1
                     t2 = time.time()
-                    
+                # Giving control back to the event loop as the bucket refilling is done and sleeping for the time till next refilling turn.
                 await asyncio.sleep(self.timelimit-(t2-t1))
         except asyncio.CancelledError:
             print("Closing the refilling process as the rate limit server is shutting down.")
@@ -30,10 +31,12 @@ class TokenBucket:
                 print("Can not add more users for rate limiting system overwhelmed.")
                 return False
             
+            # Always allowing a user to get their first request approved after registering.
             async with self.lock:
                 self.user_dict[user] = 0
                 return True
-        
+            
+        # Acquiring the lock to update the user base dictionary.
         async with self.lock:
             if self.user_dict[user]>1:
                 self.user_dict[user] -= 1

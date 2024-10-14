@@ -35,6 +35,8 @@ async def coming_requsts(rl, rate_limiter_loop):
         total_approved += approved[i]
         total_requested += total_request[i]
     print(f"Total processed requests: {total_approved} out of {total_requested} requests.")
+
+    # Cancelling the refilling bucket background process as no more request will come to the server from this task. 
     rate_limiter_loop.cancel()
 
 async def main():
