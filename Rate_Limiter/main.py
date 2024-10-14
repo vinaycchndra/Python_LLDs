@@ -38,7 +38,7 @@ async def coming_requsts(rl, rate_limiter_loop):
     rate_limiter_loop.cancel()
 
 async def main():
-    rl_config = RateLimiter("token_bucket", 2, perSecond=True)
+    rl_config = RateLimiter("token_bucket", 10, perSecond=True)
     rl =  rl_config.get_rate_limiter()
     task1 = asyncio.create_task(rl.start())
     task2 = asyncio.create_task(coming_requsts(rl, task1))

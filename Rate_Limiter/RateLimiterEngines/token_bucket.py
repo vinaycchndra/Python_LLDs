@@ -7,23 +7,18 @@ class TokenBucket:
         self.user_dict = {}
         self.lock  = asyncio.Lock()
         self.max_tokens = int(1/self.timelimit)
-        self.refilling_arr = []
 
     async def start(self):
         try:
-            self.refilling_arr  = []
-            # Refilling the token loop
             while True: 
                 async with self.lock:
                     t1 = time.time()
-                    self.refilling_arr.append("Refilling started")
                     for key in self.user_dict:
                         if self.user_dict[key] != self.max_tokens:
                             self.user_dict[key] = self.user_dict[key]+1
                     t2 = time.time()
                     
                 await asyncio.sleep(self.timelimit-(t2-t1))
-
         except asyncio.CancelledError:
             print("Closing the refilling process as the rate limit server is shutting down.")
 
