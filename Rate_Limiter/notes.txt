@@ -2,7 +2,7 @@
     # https://www.youtube.com/watch?v=X5daFTDfy2g
 
 2. The api gateways are the best places where we can plant the rate limiting endpoints since  the api gateways are used for the 
-   authentication and routing of the requests coming into the system.
+   authentication and routing of the requests coming into the system to the respectinve serving point.
 
 3. So here at the authentication level we can identify the rate limiting since with the api key or the json web token we can identify the user and 
     can keep the track of the past request and current request for approving the request.
