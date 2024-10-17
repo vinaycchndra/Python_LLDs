@@ -26,7 +26,7 @@ async def coming_requsts(rl, rate_limiter_loop):
     total_time = time.time()-t1
     
     for i in range(a, b+1):
-        print(f"user : {i}--> total_requests: {total_request.get(i)}--> Approved Requests: {approved.get(i)}--> in time: {total_time}--> Approved rate: {approved.get(i)/total_time}")
+        print(f"user : {i}--> total_requests: {total_request.get(i)}--> Approved Requests: {approved.get(i)}--> in time: {total_time}--> Approved rate: {60*approved.get(i)/total_time}")
     
     total_approved = 0
     total_requested = 0
@@ -40,7 +40,8 @@ async def coming_requsts(rl, rate_limiter_loop):
     rate_limiter_loop.cancel()
 
 async def main():
-    rl_config = RateLimiter("token_bucket", 10, perSecond=True)
+    # We will configuring per minute rate only.
+    rl_config = RateLimiter("token_bucket", 5)
     rl =  rl_config.get_rate_limiter()
     task1 = asyncio.create_task(rl.start())
     task2 = asyncio.create_task(coming_requsts(rl, task1))
