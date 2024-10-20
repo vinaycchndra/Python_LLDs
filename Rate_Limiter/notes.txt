@@ -2,12 +2,19 @@
     # https://www.youtube.com/watch?v=X5daFTDfy2g
 
 2. The api gateways are the best places where we can plant the rate limiting endpoints since  the api gateways are used for the 
-   authentication and routing of the requests coming into the system to the respectinve serving point.
+   authentication and routing of the requests coming into the system to the respectinve serving point. Load Balancer can also be good choise. 
 
 3. So here at the authentication level we can identify the rate limiting since with the api key or the json web token we can identify the user and 
     can keep the track of the past request and current request for approving the request.
 
-4. The token bucket algorithm fills the tokens to the bucket after every one third of the second. So accordingly refill tokens are calculated. 
+4. The token bucket algorithm fills the tokens to the bucket after every one third of the second. So accordingly quantity of refill tokens are calculated 
+    depending upon the approved rate limiting rate. 
 
 5. Using asynchronous programming to run both the processes of generating requests and approving request in a single process. The two background processes one 
    for generating the request and other for filling the bucket in case of the token bucket algorithm implementation.
+
+6. Leaky bucket algorithm: In this algorithm the request is mimiked by the water flowing into the bucket and the approved rate is mimiked by the rate at which 
+    water is leaking. If there is no space in the bucket the other incoming requests are rejected. However, in current implementation it can not handle this burst of requests 
+    as in implementation logic the requests are not routed by the rate limiter like a load balancer rather they are approved to be processed by the server. 
+
+7. In actual implementation of the leaky bucket, the bucket should block the request into the que and should pass it to the server at constant leak rate or approve rate. 

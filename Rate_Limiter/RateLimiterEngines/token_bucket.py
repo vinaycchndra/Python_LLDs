@@ -4,7 +4,7 @@ import time
 class TokenBucket:
     def __init__(self, refill_rate: float, max_tokens: int):
         self.refill_interval = 1/3                                      # Will do refill every one third of Second.
-        self.tokens_per_refill = refill_rate*self.refill_interval       # Since we are refilling every 333 milli second so refilling should put enough tokens every time   
+        self.tokens_per_refill = refill_rate*self.refill_interval       # Since we are refilling every 333 milli second so refilling should put enough tokens every time.   
         self.user_dict = {}
         self.lock  = asyncio.Lock()
         self.max_tokens = max_tokens

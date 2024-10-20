@@ -8,17 +8,19 @@ import time
 async def coming_requsts(rl, rate_limiter_loop):
     t1 = time.time()
     a = 1
-    b = 5000 # max users
+    b = 100 # max users
     approved = {i:0 for i in range(a, b+1)}
     total_request = {i:0 for i in range(a, b+1)}
-    total_incoming = 10000000
+    total_incoming = 10000
     for k in range(1, total_incoming+1):
         user = k%b
         if user == 0:
             user = b
+        # print(f"user {k} is sending the request")
         total_request[user] += 1
-        await asyncio.sleep(0.000000000001)
+        await asyncio.sleep(0.001)
         approve = await rl.approve_request(user)
+        # print(f"approved for user:: {user} :: request {k}")
         if approve:
             approved[user] = approved[user]+1
         
@@ -41,7 +43,8 @@ async def coming_requsts(rl, rate_limiter_loop):
 
 async def main():
     # We will configuring per minute rate only.
-    rl_config = RateLimiter("token_bucket", 5)
+    # rl_config = RateLimiter("token_bucket", 5)
+    rl_config = RateLimiter("leaky_bucket", 20)
     rl =  rl_config.get_rate_limiter()
     task1 = asyncio.create_task(rl.start())
     task2 = asyncio.create_task(coming_requsts(rl, task1))

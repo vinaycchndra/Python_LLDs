@@ -1,4 +1,5 @@
 from RateLimiterEngines.token_bucket import TokenBucket
+from RateLimiterEngines.leaky_bucket import LeakyBucket
 
 class RateLimiter:
     def __init__(self, algo: str = None, permitted_rate: float = None):
@@ -13,8 +14,15 @@ class RateLimiter:
         
         if self.algo ==  "token_bucket":
             self.__rate_limiter = TokenBucket(refill_rate = self.permitted_rate/60, max_tokens = 5)
+        elif self.algo == "leaky_bucket":
+            self.__rate_limiter = LeakyBucket(leak_rate = self.permitted_rate/60, max_bucket_size= 5)    
         else:
-            raise Exception("Please provide the valid rate limiting algorithm from 'token_bucket' or ' '.")
+            raise Exception(
+                            """Please provide the valid rate limiting algorithm from 
+                            1.  'token_bucket' 
+                            2.  'leaky_bucket'.
+                            """
+                        )
         
     def get_rate_limiter(self):
         return self.__rate_limiter
