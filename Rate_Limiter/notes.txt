@@ -27,6 +27,18 @@
    it will check and update the window and counter to zero.
 
 10. One of the disadvantage of this algorithm is that it allows the burst of the request at the edges allowwing  double the allowed rate of requests.
+
 11. For fixed window counter following videos were used to understand the algorithms: 
     a. https://www.youtube.com/watch?v=ms8UtuewgcQ&t=0s
     b. https://www.youtube.com/watch?v=wOi3TF9IbOQ
+
+12. For the sliding window log rate limiting algorithm we do not have fixed window of the time instead we have a sliding time window. So 
+    we can have infinite positions of this sliding window in a period of time greater than the size of this sliding window. So the algorithm says that 
+    at any time sliding window the no of requests can not be more than the allowed requests in that window. This algorithm is improvement over 
+    the fixed window algorithm which allowes more no. of allowed requests in case of the bursts of requests if comes at the edges of the window.
+
+13. In implementation of the above algorithm every time a request comes we check if the sliding window is already full and we remove the old request logs and make space of the incoming request.
+
+14. For this sliding window log rate limiting algorithm following youtube videos were used: 
+    a. https://www.youtube.com/watch?v=iiSGsvg_Ams
+    b. https://www.youtube.com/watch?v=iQKtqYue5cg
