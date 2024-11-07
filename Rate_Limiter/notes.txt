@@ -26,6 +26,7 @@
    has sent the request is in the current window it will not update the current window and will use the number of the counters to decide the requests to be processed. If the current window has expired 
    it will check and update the window and counter to zero.
 
-10. For fixed window counter following videos were used to understand the algorithms: 
+10. One of the disadvantage of this algorithm is that it allows the burst of the request at the edges allowwing  double the allowed rate of requests.
+11. For fixed window counter following videos were used to understand the algorithms: 
     a. https://www.youtube.com/watch?v=ms8UtuewgcQ&t=0s
     b. https://www.youtube.com/watch?v=wOi3TF9IbOQ
