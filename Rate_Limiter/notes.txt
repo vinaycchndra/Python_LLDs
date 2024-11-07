@@ -18,3 +18,14 @@
     as in implementation logic the requests are not routed by the rate limiter like a load balancer rather they are approved to be processed by the server. 
 
 7. In actual implementation of the leaky bucket, the bucket should block the request into the que and should pass it to the server at constant leak rate or approve rate. 
+
+8. So the fixed window counter algorithm divides the time in windows of fixed time with allowed counts of requests in fixed window.
+
+9. In the implementation of fixed window counter algorithm we mantain for evey user dictionary of the variables with three variables one is count of requests, other the current window of the user 
+   (which may be old also based upon when the user has sent the request last time.) so we need to update the current window every time user sends a request. If the time at which user 
+   has sent the request is in the current window it will not update the current window and will use the number of the counters to decide the requests to be processed. If the current window has expired 
+   it will check and update the window and counter to zero.
+
+10. For fixed window counter following videos were used to understand the algorithms: 
+    a. https://www.youtube.com/watch?v=ms8UtuewgcQ&t=0s
+    b. https://www.youtube.com/watch?v=wOi3TF9IbOQ
