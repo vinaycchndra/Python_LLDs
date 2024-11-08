@@ -42,3 +42,17 @@
 14. For this sliding window log rate limiting algorithm following youtube videos were used: 
     a. https://www.youtube.com/watch?v=iiSGsvg_Ams
     b. https://www.youtube.com/watch?v=iQKtqYue5cg
+
+15. The sliding window technique is more robust but not time and memory efficient as we have to pop up the requests from the sliding window which is a queue and 
+    save the logs of the request in the queues. But if we were able to calculate what is the count of the request in the current sliding window without 
+    mantaining a queue then we can have an efficient and robust rate limiting algorithm. To do this we can use the fixed window counter algorithm. 
+    To calculate the count of requests in the sliding time window we calculate the portion of the time  divided into the previous fixed window and the current window
+    and assume the requests are uniformly distributed in the previous fixed window and calculate the request count of the portion of the sliding window which is in the 
+    previous fixed window counter and since the remaining portion is the current window so we add the current window request count in the previous fixed window calculated request count.
+    
+    sliding window = t1+t2
+    request count  in current sliding window = ceil(t1*previous fixed window weight + current window request count)
+
+    if request count < allowed request then we approve the request.
+    
+     
