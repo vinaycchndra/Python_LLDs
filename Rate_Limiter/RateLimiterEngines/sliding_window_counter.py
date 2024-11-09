@@ -29,8 +29,7 @@ class SlidingWindowCounter:
         
         async with self.user_dict.get(user).get("lock"):
             self.update_current_user_window(self.user_dict.get(user), current_time)
-            request_count = self.calculate_request_count(self.user_dict.get(user))
-
+            request_count = self.calculate_request_count(self.user_dict.get(user), current_time)
             if request_count < self.allowed_requests:
                 self.user_dict[user]["curr_window_request_counts"] += 1
                 return True
@@ -45,7 +44,7 @@ class SlidingWindowCounter:
         old_window_time = user_data.get("current_window")
         time_passed = current_time-old_window_time
         no_of_windows_passed = time_passed//self.window_length
-        
+        # if the window gap is more than equal to 2 in this case we had no previous window requests. 
         if no_of_windows_passed>=2:
             user_data["previous_window_request_counts"]  = 0
             user_data["curr_window_request_counts"] = 0

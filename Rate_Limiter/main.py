@@ -21,7 +21,6 @@ async def coming_requsts(rl, rate_limiter_loop):
         approve = await rl.approve_request(user)
         if approve:
             approved[user] = approved[user]+1
-            print(f"approved for user:: {user} :: request {k}")
     
     total_time = time.time()-t1
     
@@ -46,7 +45,9 @@ async def main():
     # rl =  rl_config.get_rate_limiter()
     # rl_config = RateLimiter("fixed_window_counter", 48)
     # rl = rl_config.get_rate_limiter()
-    rl_config = RateLimiter("sliding_window_log", 48)
+    # rl_config = RateLimiter("sliding_window_log", 48)
+    # rl = rl_config.get_rate_limiter()
+    rl_config = RateLimiter("sliding_window_counter", 48)
     rl = rl_config.get_rate_limiter()
     task1 = asyncio.create_task(rl.start())
     task2 = asyncio.create_task(coming_requsts(rl, task1))

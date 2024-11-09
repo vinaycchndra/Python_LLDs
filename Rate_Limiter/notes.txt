@@ -54,5 +54,8 @@
     request count  in current sliding window = ceil(t1*previous fixed window weight + current window request count)
 
     if request count < allowed request then we approve the request.
-    
-     
+
+16. Following links have been used to understand the sliding window counter algorithm:
+    a. https://medium.com/@avocadi/rate-limiter-sliding-window-counter-7ec08dbe21d6
+    b. https://www.youtube.com/watch?v=AILToGInF7U&t=1s
+    c. https://www.youtube.com/watch?v=KE4H1uHzf2E&t=197s
