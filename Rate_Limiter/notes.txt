@@ -2,15 +2,60 @@
     # https://www.youtube.com/watch?v=X5daFTDfy2g
 
 2. The api gateways are the best places where we can plant the rate limiting endpoints since  the api gateways are used for the 
-   authentication and routing of the requests coming into the system to the respectinve serving point.
+   authentication and routing of the requests coming into the system to the respectinve serving point. Load Balancer can also be good choise. 
 
 3. So here at the authentication level we can identify the rate limiting since with the api key or the json web token we can identify the user and 
     can keep the track of the past request and current request for approving the request.
 
-4. The token bucket algorithm fills the tokens to the bucket after a certain period of time as configured for example if the allowed requests are 10 requests/second 
-    then in a second 10 token are added to the bucket. If the bucket is full the added tokens are discarded. However, if you add 10 tokens in a go considering above allowed 
-    rate limit it may cause more load in the system as client can utilise all the ten requests in a burst and server may be overloaded, so we can uniformly 
-    add the token to the bucket for example 1 token every 100 milliseconds, this will ensure the more uniform load distribution on to the system. 
+4. The token bucket algorithm fills the tokens to the bucket after every one third of the second. So accordingly quantity of refill tokens are calculated 
+    depending upon the approved rate limiting rate. 
 
 5. Using asynchronous programming to run both the processes of generating requests and approving request in a single process. The two background processes one 
    for generating the request and other for filling the bucket in case of the token bucket algorithm implementation.
+
+6. Leaky bucket algorithm: In this algorithm the request is mimiked by the water flowing into the bucket and the approved rate is mimiked by the rate at which 
+    water is leaking. If there is no space in the bucket the other incoming requests are rejected. However, in current implementation it can not handle this burst of requests 
+    as in implementation logic the requests are not routed by the rate limiter like a load balancer rather they are approved to be processed by the server. 
+
+7. In actual implementation of the leaky bucket, the bucket should block the request into the que and should pass it to the server at constant leak rate or approve rate. 
+
+8. So the fixed window counter algorithm divides the time in windows of fixed time with allowed counts of requests in fixed window.
+
+9. In the implementation of fixed window counter algorithm we mantain for evey user dictionary of the variables with three variables one is count of requests, other the current window of the user 
+   (which may be old also based upon when the user has sent the request last time.) so we need to update the current window every time user sends a request. If the time at which user 
+   has sent the request is in the current window it will not update the current window and will use the number of the counters to decide the requests to be processed. If the current window has expired 
+   it will check and update the window and counter to zero.
+
+10. One of the disadvantage of this algorithm is that it allows the burst of the request at the edges allowwing  double the allowed rate of requests.
+
+11. For fixed window counter following videos were used to understand the algorithms: 
+    a. https://www.youtube.com/watch?v=ms8UtuewgcQ&t=0s
+    b. https://www.youtube.com/watch?v=wOi3TF9IbOQ
+
+12. For the sliding window log rate limiting algorithm we do not have fixed window of the time instead we have a sliding time window. So 
+    we can have infinite positions of this sliding window in a period of time greater than the size of this sliding window. So the algorithm says that 
+    at any time sliding window the no of requests can not be more than the allowed requests in that window. This algorithm is improvement over 
+    the fixed window algorithm which allowes more no. of allowed requests in case of the bursts of requests if comes at the edges of the window.
+
+13. In implementation of the above algorithm every time a request comes we check if the sliding window is already full and we remove the old request logs and make space of the incoming request.
+
+14. For this sliding window log rate limiting algorithm following youtube videos were used: 
+    a. https://www.youtube.com/watch?v=iiSGsvg_Ams
+    b. https://www.youtube.com/watch?v=iQKtqYue5cg
+
+15. The sliding window technique is more robust but not time and memory efficient as we have to pop up the requests from the sliding window which is a queue and 
+    save the logs of the request in the queues. But if we were able to calculate what is the count of the request in the current sliding window without 
+    mantaining a queue then we can have an efficient and robust rate limiting algorithm. To do this we can use the fixed window counter algorithm. 
+    To calculate the count of requests in the sliding time window we calculate the portion of the time  divided into the previous fixed window and the current window
+    and assume the requests are uniformly distributed in the previous fixed window and calculate the request count of the portion of the sliding window which is in the 
+    previous fixed window counter and since the remaining portion is the current window so we add the current window request count in the previous fixed window calculated request count.
+    
+    sliding window = t1+t2
+    request count  in current sliding window = ceil(t1*previous fixed window weight + current window request count)
+
+    if request count < allowed request then we approve the request.
+
+16. Following links have been used to understand the sliding window counter algorithm:
+    a. https://medium.com/@avocadi/rate-limiter-sliding-window-counter-7ec08dbe21d6
+    b. https://www.youtube.com/watch?v=AILToGInF7U&t=1s
+    c. https://www.youtube.com/watch?v=KE4H1uHzf2E&t=197s
