@@ -78,7 +78,7 @@ class ParkingSpotType{
 ParkingSpot <|-- CarSpot: Extends
 ParkingSpot <|-- DisabledSpot: Extends
 ParkingSpot <|-- ElectricCarSpot: Extends
-ParkingSpot <|-- MotorcycleSpot: Extends
+ParkingSpot <|-- MotorCycleSpot: Extends
 ParkingSpot ..> ParkingSpotType: Dependency
 ParkingSpot --> Vehicle: has
 
@@ -86,12 +86,12 @@ class Vehicle{
 - registrationNumber: string
 - vehicleType: VehicleType
 + getregistrationNumber(): string
-+ getVehicleType: VehicleType
++ getVehicleType(): VehicleType
 }
 
 Vehicle <|-- Car: Extends
 Vehicle <|-- Truck: Extends
-Vehicle <|-- Motorcycle: Extends
+Vehicle <|-- MotorCycle: Extends
 Vehicle <|-- ElectricCar: Extends
 Vehicle <|-- ElectricCar: Extends
 Vehicle ..> VehicleType: Dependency
@@ -99,7 +99,7 @@ Vehicle ..> VehicleType: Dependency
 class VehicleType{
 <<enumeration>>
     Car
-    Motorcycle
+    MotorCycle
     Truck
     ElectricCar
     Van
