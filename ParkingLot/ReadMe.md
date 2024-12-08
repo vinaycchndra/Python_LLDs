@@ -44,7 +44,7 @@ class EntryPanel{
  - entryPanelId: string
  + getEntryPanelId(): string
  + getParkingTicket(vehicle: Vehicle): ParkingTicket
- - generateParkingTicket(): ParkingTicket
+ - generateParkingTicket(vehicle: Vehicle, floor_id: string, spot_id: string): ParkingTicket
 }
 
 class ExitPanel{
@@ -114,11 +114,11 @@ class ParkingTicket{
 - endTime: DateTime
 - amount: number
 
-+ getParkingTicketId: string
-+ getVehicleRegistrationNumber: string
-+ getParkingSpotId: string
-+ getParkingFloorId: string
-+ getVehicleType: VehicleType
++ getParkingTicketId(): string
++ getVehicleRegistrationNumber(): string
++ getParkingSpotId(): string
++ getParkingFloorId(): string
++ getVehicleType(): VehicleType
 + setStartTime(startTime: DateTime): void
 + setEndTime(endTime: DateTime): void
 + getAmount(): number

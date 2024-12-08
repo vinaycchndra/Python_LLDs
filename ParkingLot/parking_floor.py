@@ -52,3 +52,4 @@ class ParkingFloor:
             if not spot.isSpotFree():
                 in_use_parking_spots.append(spot)
         return in_use_parking_spots
+    
