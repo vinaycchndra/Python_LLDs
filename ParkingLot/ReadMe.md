@@ -31,7 +31,7 @@ class ParkingFloor{
 + getParkingFloorId(): string
 + getListOfParkingSpots(): Map<ParkingSpotType, ParkingSpot[]>
 + showDisplayBoard(message: string): Void
-+ getAvailableSpot(): ParkingSpot | null
++ getAvailableSpot(vehicle: Vehicle): ParkingSpot | null
 - getSpotTypeForVehicle(vehicleType: VehicleType): ParkingSpotType
 + getInUseSpotsForVehicleType(): ParkingSpot[]
 }

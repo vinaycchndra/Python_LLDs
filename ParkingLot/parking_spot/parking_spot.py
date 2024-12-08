@@ -20,6 +20,7 @@ class ParkingSpot:
     def assignVehicleToSpot(self, vehicle: Vehicle) -> bool:
         if self._vehicle is None:
             self._vehicle = vehicle
+            self._isSpotAvailable = False
             return True
         return False
 
