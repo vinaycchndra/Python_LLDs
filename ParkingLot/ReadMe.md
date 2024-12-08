@@ -33,7 +33,7 @@ class ParkingFloor{
 + showDisplayBoard(message: string): Void
 + getAvailableSpot(vehicle: Vehicle): ParkingSpot | null
 - getSpotTypeForVehicle(vehicleType: VehicleType): ParkingSpotType
-+ getInUseSpotsForVehicleType(): ParkingSpot[]
++ getInUseSpotsForVehicleType(vehicleType: VehicleType): ParkingSpot[]
 }
 
  ParkingFloor *-- ParkingSpot: Composition
