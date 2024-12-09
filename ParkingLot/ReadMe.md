@@ -15,10 +15,10 @@ class ParkingLot{
 - exitPanels: Array<ExitPanel>
 - entryPanels: Array<EntryPanel>
 + getInstance(): ParkingLot
-+ getListofParkingFloors: ParkingFloor[]
-+ getListofExitPanels: ExistPanel[]
-+ getListofEntryPanels: EntryPanel[]
-+ vacateParkingSpot(parkingSpotId: string): ParkingSpot | null
++ getListofParkingFloors(): ParkingFloor[]
++ getListofExitPanels(): ExistPanel[]
++ getListofEntryPanels(): EntryPanel[]
++ getParkingSpot(parkingSpotId: string): ParkingSpot | null
 }
 ParkingLot *-- ParkingFloor: Composition
 ParkingLot *-- EntryPanel: Composition
@@ -51,7 +51,7 @@ class ExitPanel{
  - exitPanelId: string
  + getExitPanelId(): string
  + checkOut(parkingTicket: ParkingTicket): void
- - calculateHours(parkingTicket: ParkingTicket): void
+ - calculateHours(parkingTicket: ParkingTicket): number
  - calculateAmount(parkingTicket: ParkingTicket): number
 }
 
@@ -63,6 +63,7 @@ class ParkingSpot{
 
     + getParkingSpotId(): string
     + isSpotFree(): bool
+    + getParkingSpotType(): ParkingSpotType
     + getVehicleDetails(): Vehicle | null
     + assignVehicleToSpot(vehicle: Vehicle): bool
     + vacateVehicleFromSpot(): bool
@@ -119,10 +120,12 @@ class ParkingTicket{
 + getParkingSpotId(): string
 + getParkingFloorId(): string
 + getVehicleType(): VehicleType
-+ setStartTime(startTime: DateTime): void
-+ setEndTime(endTime: DateTime): void
++ setStartTime(startTime: DateTime): self
++ setEndTime(endTime: DateTime): self
++ getStartTime(): datetime
++ getEndTime(): datetime
 + getAmount(): number
-+ setAmount(amount: number): void 
++ setAmount(amount: number): self 
 }
 
 class DisplayBoard{

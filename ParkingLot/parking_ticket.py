@@ -33,13 +33,21 @@ class ParkingTicket:
       
     def setStartTime(self, start_time: datetime)->None:
         self._startTime = start_time
+        return self
 
     def setEndTime(self, end_time: datetime)->None:
         self._endTime = end_time
-
+        return self
+    
+    def getStartTime(self) -> datetime: 
+        return self._startTime
+    
+    def getEndTime(self) -> datetime: 
+        return self._endTime
+    
     def getAmount(self) -> float:
         pass
 
     def setAmount(self, amount: float)-> None:
-        pass
+        self._amount = amount
     

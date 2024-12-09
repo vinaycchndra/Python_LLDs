@@ -11,6 +11,9 @@ class ParkingSpot:
     def getParkingSpotId(self) ->  str:
         return self._parkingSpotId
     
+    def getParkingSpotType(self) -> ParkingSpotType:
+        return self._parkingSpotType
+     
     def isSpotFree(self) -> bool:
         return self._isSpotAvailable
     

@@ -14,9 +14,6 @@ class EntryPanel:
         return self._entryPanelId
     
     def getParkingTicket(self, vehicle: Vehicle) -> ParkingTicket:
-        pass
-    
-    def getParkingTicket(self, vehicle: Vehicle) -> ParkingTicket:
         parking_lot = ParkingLot.getInstance()
         parking_floors = parking_lot.getListOfParkingFloor()
 
@@ -44,7 +41,7 @@ class EntryPanel:
                                     vehicle_type = vehicle.getVehicleType()
                                 )
         
-        parking_ticket.setStartTime(start_time = datetime.now())
+        return parking_ticket.setStartTime(start_time = datetime.now())
 
-        return parking_ticket
+        
     
