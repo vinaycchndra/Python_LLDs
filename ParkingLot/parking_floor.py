@@ -2,6 +2,7 @@ from parking_spot.parking_spot_type import ParkingSpotType
 from display_board import DisplayBoard
 from vehicle.vehicle import Vehicle
 from vehicle.vehicle_type import VehicleType
+from parking_spot.parking_spot import ParkingSpot
 
 class ParkingFloor:
     def __init__(self, parking_floor_id: str, ):
@@ -12,7 +13,7 @@ class ParkingFloor:
     def getParkingFloorId(self) -> str:
         return self._parkingFloorId 
     
-    def getListOfParkingSpots(self) -> dict[list[str]]: 
+    def getListOfParkingSpots(self) -> dict[str, list[ParkingSpot]]: 
         return self._parkingSpotMap
     
     def showDisplayBoard(self):

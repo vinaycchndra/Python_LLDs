@@ -52,7 +52,7 @@ class ExitPanel{
  + getExitPanelId(): string
  + checkOut(parkingTicket: ParkingTicket): void
  - calculateHours(parkingTicket: ParkingTicket): number
- - calculateAmount(parkingTicket: ParkingTicket): number
+ - calculateAmount(parkingSpotType: ParkingSpotType, duration: float): number
 }
 
 class ParkingSpot{

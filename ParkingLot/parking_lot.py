@@ -25,10 +25,6 @@ class ParkingLot:
     def getListOfParkingFloor(self) -> list[ParkingFloor]: 
         return self._listOfParkingFloor
     
-    def addParkingFloor(self, parking_floor: ParkingFloor)->None:
-        self._listOfParkingFloor.append(parking_floor)
-        return None
-    
     def getParkingSpot(self, parking_spot_id : str) -> ParkingSpot:
         for parking_floor in self._listOfParkingFloor:
             parking_spot_map = parking_floor.getListOfParkingSpots()
