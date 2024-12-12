@@ -1,5 +1,5 @@
 from vehicle.vehicle import Vehicle
-from parking_spot_type import ParkingSpotType
+from .parking_spot_type import ParkingSpotType
 
 class ParkingSpot: 
     def __init__(self, parking_spot_id: str, parking_spot_type: ParkingSpotType):

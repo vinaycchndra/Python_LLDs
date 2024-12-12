@@ -1,4 +1,4 @@
-from vehicle_type import VehicleType
+from .vehicle_type import VehicleType
 
 class Vehicle: 
     def __init__(self, registration_number: str, vehicle_type: VehicleType):

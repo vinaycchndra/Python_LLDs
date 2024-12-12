@@ -1,5 +1,5 @@
-from vehicle_type import VehicleType
-from vehicle import Vehicle
+from .vehicle_type import VehicleType
+from .vehicle import Vehicle
 
 
 class Car(Vehicle):
