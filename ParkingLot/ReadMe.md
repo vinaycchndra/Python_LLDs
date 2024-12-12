@@ -41,7 +41,7 @@ Account <|-- Attendant: Extends
 
 class ParkingFloor{
 - parkingFloorId: string
-- parkingSpotMap: Map~ ParkingSpotType, Array~ParkingSpot~ ~
+- parkingSpotMap: Map~ParkingSpotType, Array~ParkingSpot~
 - displayBoard: DisplayBoard
 + getParkingFloorId(): string
 + getListOfParkingSpots(): Map<ParkingSpotType, ParkingSpot[]>
