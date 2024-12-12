@@ -11,9 +11,9 @@ classDiagram
 
 class ParkingLot{
 - instance: ParkingLot
-- parkingFloors: Array<ParkingFloor>
-- exitPanels: Array<ExitPanel>
-- entryPanels: Array<EntryPanel>
+- parkingFloors: Array~ParkingFloor~
+- exitPanels: Array~ExitPanel~
+- entryPanels: Array~EntryPanel~
 + getInstance(): ParkingLot
 + getListofParkingFloors(): ParkingFloor[]
 + getListofExitPanels(): ExistPanel[]
@@ -24,9 +24,24 @@ ParkingLot *-- ParkingFloor: Composition
 ParkingLot *-- EntryPanel: Composition
 ParkingLot *-- ExitPanel: Composition
 
+class Account{
+    - userName: string
+    - password: string
+}
+
+class Admin{
+    + addParkingFloor(parking_floor: ParkingFloor): bool
+    + addParkingSpot(parking_floor_id: string, parking_spot: ParkingSpot): null
+    + addEntryPanel(entry_panel: EntryPanel): null
+    + addExitPanel(exit_panel: ExitPanel): null
+}
+
+Account <|-- Admin: Extends
+Account <|-- Attendant: Extends
+
 class ParkingFloor{
 - parkingFloorId: string
-- parkingSpotMap: Map<ParkingSpotType, Array<ParkingSpot>>
+- parkingSpotMap: Map~ParkingSpotType, Array~ParkingSpot~~
 - displayBoard: DisplayBoard
 + getParkingFloorId(): string
 + getListOfParkingSpots(): Map<ParkingSpotType, ParkingSpot[]>
