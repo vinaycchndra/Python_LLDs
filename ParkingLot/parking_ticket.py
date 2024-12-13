@@ -46,7 +46,7 @@ class ParkingTicket:
         return self._endTime
     
     def getAmount(self) -> float:
-        pass
+        return self._amount
 
     def setAmount(self, amount: float)-> None:
         self._amount = amount

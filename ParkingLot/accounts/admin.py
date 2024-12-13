@@ -1,6 +1,6 @@
 from parking_floor import ParkingFloor
 from parking_lot import ParkingLot
-from accounts import Account
+from accounts.accounts import Account
 from parking_spot.parking_spot import ParkingSpot
 from entry_panel import EntryPanel
 from exit_panel import ExitPanel

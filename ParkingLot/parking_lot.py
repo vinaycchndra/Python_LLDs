@@ -1,7 +1,5 @@
 from parking_floor import ParkingFloor
 from parking_spot.parking_spot import ParkingSpot
-from entry_panel import EntryPanel
-from exit_panel import ExitPanel
 
 class ParkingLot:
     _instance = None
@@ -36,8 +34,8 @@ class ParkingLot:
     def getListOfParkingFloors(self)->list[ParkingFloor]: 
         return self._listOfParkingFloor
     
-    def getListOfEntryPanels(self)->list[EntryPanel]: 
+    def getListOfEntryPanels(self): 
         return self._listOfEntryPanels
     
-    def getListOfExitPanels(self)->list[ExitPanel]: 
+    def getListOfExitPanels(self): 
         return self._listOfExitPanels

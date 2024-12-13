@@ -5,7 +5,7 @@ from vehicle.vehicle_type import VehicleType
 from parking_spot.parking_spot import ParkingSpot
 
 class ParkingFloor:
-    def __init__(self, parking_floor_id: str, ):
+    def __init__(self, parking_floor_id: str):
         self._parkingFloorId = parking_floor_id
         self._displayBoard  = DisplayBoard()
         self._parkingSpotMap = {parking_spot : [] for parking_spot in ParkingSpotType}
@@ -26,7 +26,7 @@ class ParkingFloor:
                     count += 1
             display_message.append("%s :: %d" % (key, count))
         
-        self._displayBoard("\n".join(display_message))
+        self._displayBoard.displayMessage("\n".join(display_message))
 
     def _getSpotTypeForVehicle(self, vehicle_type: VehicleType):
         if vehicle_type == VehicleType.CAR:
@@ -54,3 +54,5 @@ class ParkingFloor:
                 in_use_parking_spots.append(spot)
         return in_use_parking_spots
     
+    def __str__(self):
+        return self._parkingFloorId
