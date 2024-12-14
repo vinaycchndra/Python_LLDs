@@ -1,4 +1,5 @@
 import unittest
+import time
 from uuid import uuid4
 from parking_spot.parking_spot_type import ParkingSpotType
 from parking_spot.parking_spot import ParkingSpot
@@ -7,6 +8,9 @@ from accounts.admin import Admin
 from parking_floor import ParkingFloor
 from parking_lot import ParkingLot
 from vehicle.vehicle_type import VehicleType
+from entry_panel import EntryPanel
+from exit_panel import ExitPanel
+from hourly_cost import HourlyCost
 
 class TestParkingLotsEntities(unittest.TestCase): 
     def test_parking_spot(self): 
@@ -26,9 +30,9 @@ class TestParkingLotsEntities(unittest.TestCase):
         parking_spot.vacateVehicleFromSpot()
         self.assertEqual(parking_spot.isSpotFree(), True)
 
-    
     def test_parking_floor(self): 
-        parking_lot = ParkingLot() 
+        ParkingLot() 
+        parking_lot = ParkingLot.getInstance()
         # Adding parking floors by the admin user
         admin = Admin(username='user', password='user@123')        
         added_parking_floors = []
@@ -92,6 +96,64 @@ class TestParkingLotsEntities(unittest.TestCase):
         output_message = "\n".join(output_message_list)
         for parking_floor_ in added_parking_floors: 
             self.assertEqual(output_message, parking_floor_.showDisplayBoard())
+
+    def test_entry_and_exit_panel(self):
+        ParkingLot() 
+        entry_panel = EntryPanel(entry_panel_id="entry_panel_1")
+        exit_panel = ExitPanel(exit_panel_id="exit_panel_1")
+        hourly_cost = HourlyCost()
+        # Adding parking floors by the admin user
+        admin = Admin(username='user', password='user@123')        
+        parking_floor_1 =  ParkingFloor(parking_floor_id='parking_floor_1')
+        parking_floor_2 =  ParkingFloor(parking_floor_id='parking_floor_2')
+        admin.addParkingFloor(parking_floor_1)
+        admin.addParkingFloor(parking_floor_2)
+        
+        # adding parking spots 
+        admin.addParkingSpot('parking_floor_1', ParkingSpot(parking_spot_id=f'{ParkingSpotType.COMPACT.name}_a_parking_floor_1', parking_spot_type = ParkingSpotType.COMPACT))    
+        admin.addParkingSpot('parking_floor_1',ParkingSpot(parking_spot_id=f'{ParkingSpotType.LARGE.name}_b_parking_floor_1', parking_spot_type = ParkingSpotType.LARGE))    
+        admin.addParkingSpot('parking_floor_2',ParkingSpot(parking_spot_id=f'{ParkingSpotType.COMPACT.name}_a_parking_floor_2', parking_spot_type = ParkingSpotType.COMPACT))    
+        admin.addParkingSpot('parking_floor_2',ParkingSpot(parking_spot_id=f'{ParkingSpotType.LARGE.name}_b_parking_floor_2', parking_spot_type = ParkingSpotType.LARGE))    
+        
+        # Creating Vehicles for parking spots 
+        vehicle_1 = car.Car(registration_number=uuid4())
+        vehicle_2 = truck.Truck(registration_number=uuid4())
+        vehicle_3 = car.Car(registration_number=uuid4())
+        vehicle_4 = truck.Truck(registration_number=uuid4())
+        vehicle_5 = car.Car(registration_number=uuid4())
+        vehicle_6 = truck.Truck(registration_number=uuid4())
+        
+        # getting parking tickets
+        parking_ticket_vehicle_1 = entry_panel.getParkingTicket(vehicle_1)
+        parking_ticket_vehicle_2 = entry_panel.getParkingTicket(vehicle_2)
+        parking_ticket_vehicle_3 = entry_panel.getParkingTicket(vehicle_3)
+        parking_ticket_vehicle_4 = entry_panel.getParkingTicket(vehicle_4)
+        
+        self.assertEqual(parking_ticket_vehicle_1.getParkingFloorId() in ("parking_floor_1", "parking_floor_2"), True)
+        self.assertEqual(parking_ticket_vehicle_2.getParkingFloorId() in ("parking_floor_1", "parking_floor_2"), True)
+        self.assertEqual(parking_ticket_vehicle_3.getParkingFloorId() in ("parking_floor_1", "parking_floor_2"), True)
+        self.assertEqual(parking_ticket_vehicle_4.getParkingFloorId() in ("parking_floor_1", "parking_floor_2"), True)
+        
+        # Should not get the ticket now as no parking spots are available.
+        self.assertEqual(entry_panel.getParkingTicket(vehicle_5), None)
+        self.assertEqual(entry_panel.getParkingTicket(vehicle_6), None)
+
+        print("Will sleep for 10 seconds to get some time for the vehicle to occupy spots for atleast 10 seconds.")
+        time.sleep(5)
+
+        # Making spots available for the the vehicle 5 and 6 by checking out vehicle_3 and vehicle_4
+        self.assertEqual(parking_ticket_vehicle_3.getAmount(), 0)
+        self.assertEqual(parking_ticket_vehicle_4.getAmount(), 0)
+        exit_panel.checkOut(parking_ticket_vehicle_3)
+        exit_panel.checkOut(parking_ticket_vehicle_4)
+        self.assertEqual(parking_ticket_vehicle_3.getAmount(), hourly_cost.getHourlyCost(parking_spot_type=ParkingSpotType.COMPACT))
+        self.assertEqual(parking_ticket_vehicle_4.getAmount(), hourly_cost.getHourlyCost(parking_spot_type=ParkingSpotType.LARGE))
+        
+        parking_ticket_vehicle_5 = entry_panel.getParkingTicket(vehicle_5)
+        parking_ticket_vehicle_6 = entry_panel.getParkingTicket(vehicle_6)
+        
+        self.assertNotEqual(parking_ticket_vehicle_5, 0)
+        self.assertNotEqual(parking_ticket_vehicle_6, 0)   
 
 if __name__ == "__main__": 
     unittest.main()

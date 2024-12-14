@@ -15,11 +15,11 @@ class ExitPanel:
         parking_lot = ParkingLot.getInstance()
         parking_spot = parking_lot.getParkingSpot(parking_ticket.getParkingSpotId())
         parking_spot.vacateVehicleFromSpot()
-        parking_ticket.setAmount(parking_spot_type = parking_spot.getParkingSpotType(),duration = self._calculateHours(parking_ticket))
+        parking_ticket.setAmount(self._calculateAmount(parking_spot_type = parking_spot.getParkingSpotType(),duration = self._calculateHours(parking_ticket)))
 
     def _calculateHours(self, parking_ticket: ParkingTicket) -> float:
         parking_ticket = parking_ticket.setEndTime(datetime.now())
-        total_time = parking_ticket.getEndTime - parking_ticket.getStartTime()
+        total_time = parking_ticket.getEndTime() - parking_ticket.getStartTime()
         total_hours = total_time.total_seconds()/3600
         return total_hours
 

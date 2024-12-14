@@ -21,15 +21,17 @@ class EntryPanel:
         parking_floor_for_vehicle = None
 
         for parking_floor in parking_floors: 
-            parking_spot_for_vehicle =  parking_floor.getAvailableSpot()
+            parking_spot_for_vehicle =  parking_floor.getAvailableSpot(vehicle)
             if parking_spot_for_vehicle is not None:
                 parking_floor_for_vehicle = parking_floor
                 break
+        
         # if no parking spot is available can not generate a ticket
         if parking_spot_for_vehicle is None:
             print("No parking space available.")
             return None
         
+        parking_spot_for_vehicle.assignVehicleToSpot(vehicle)
         return self._genetateParkingTicket(vehicle=vehicle, floor_id=parking_floor_for_vehicle.getParkingFloorId(), spot_id=parking_spot_for_vehicle.getParkingSpotId())
 
     def _genetateParkingTicket(self, vehicle: Vehicle, floor_id : str, spot_id : str) -> ParkingTicket: 
