@@ -2,7 +2,7 @@
 - https://medium.com/@madhankumaravelu93/low-level-system-design-parking-lot-design-part-i-7567d510da1d 
 - https://medium.com/@madhankumaravelu93/low-level-system-design-parking-lot-design-part-ii-ab5f4efab90 
 - https://mermaid.js.org/syntax/classDiagram.html
-- ./test.py file contains the overall implementation of the Parking lot.
+- ./test.py file contains test cases for the parking lot, can be triggered using "python ./test.py"
 
 ```mermaid
 

@@ -152,8 +152,8 @@ class TestParkingLotsEntities(unittest.TestCase):
         parking_ticket_vehicle_5 = entry_panel.getParkingTicket(vehicle_5)
         parking_ticket_vehicle_6 = entry_panel.getParkingTicket(vehicle_6)
         
-        self.assertNotEqual(parking_ticket_vehicle_5, 0)
-        self.assertNotEqual(parking_ticket_vehicle_6, 0)   
+        self.assertNotEqual(parking_ticket_vehicle_5, None)
+        self.assertNotEqual(parking_ticket_vehicle_6, None)   
 
 if __name__ == "__main__": 
     unittest.main()
