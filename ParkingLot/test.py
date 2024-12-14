@@ -79,6 +79,19 @@ class TestParkingLotsEntities(unittest.TestCase):
                 if vehicle_type_ == VehicleType.VAN:
                     continue
                 self.assertEqual(1, len(parking_floor_.getInUseSpotsForVehicleType(vehicle_type_)))
-                
+        
+        # Available spots for the parking spots by display board test.
+        output_message_list = ["Available Spot Counts: "]
+        for parking_spot_type in ParkingSpotType:
+            if parking_spot_type != ParkingSpotType.DISABLED:
+                output_message_list.append("%s :: %d" % (parking_spot_type, 1))
+            else:
+                output_message_list.append("%s :: %d" % (parking_spot_type, 0))
+
+        # Display board messages testing.
+        output_message = "\n".join(output_message_list)
+        for parking_floor_ in added_parking_floors: 
+            self.assertEqual(output_message, parking_floor_.showDisplayBoard())
+
 if __name__ == "__main__": 
     unittest.main()

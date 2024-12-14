@@ -25,8 +25,7 @@ class ParkingFloor:
                 if spot.isSpotFree(): 
                     count += 1
             display_message.append("%s :: %d" % (key, count))
-        
-        self._displayBoard.displayMessage("\n".join(display_message))
+        return self._displayBoard.displayMessage("\n".join(display_message))
 
     def _getSpotTypeForVehicle(self, vehicle_type: VehicleType):
         if vehicle_type == VehicleType.CAR:

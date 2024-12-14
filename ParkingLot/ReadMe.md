@@ -44,7 +44,7 @@ class ParkingFloor{
 - displayBoard: DisplayBoard
 + getParkingFloorId(): string
 + getListOfParkingSpots(): Map<ParkingSpotType, ParkingSpot[]>
-+ showDisplayBoard(message: string): Void
++ showDisplayBoard(message: string): string
 + getAvailableSpot(vehicle: Vehicle): ParkingSpot | null
 - getSpotTypeForVehicle(vehicleType: VehicleType): ParkingSpotType
 + getInUseSpotsForVehicleType(vehicleType: VehicleType): ParkingSpot[]
@@ -143,7 +143,7 @@ class ParkingTicket{
 }
 
 class DisplayBoard{
-diplayMessage(message: string): void
+diplayMessage(message: string): string
 }
 
 class HourlyCost{
