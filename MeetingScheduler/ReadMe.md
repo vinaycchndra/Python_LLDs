@@ -15,7 +15,17 @@
 
 <h3> Activity Diagram </h3>
     <p> User interacts and calls to the meeting scheduler: 
-            Queries the available room for the follwing parameters - (start_time, end_time,  capacity) - which should show the list of the available rooms with input slots.  Once the meeting rooms are available we can choose from the room of our own choice and book the calendar of that meeting room for that time slot. Once the meeting room is booked it should send the meeting notification to all the users for the meeting. We should be able to update the meetings with the invitees and timing of the meeting and room also.
+            <ul>
+                <li>
+                 Queries the available room for the follwing parameters - (start_time, end_time,  capacity) - which should show the list of the available rooms with input slots. 
+                </li>
+                <li>             
+                    Once the meeting rooms are available we can choose from the room of our own choice and book the calendar of that meeting room for that time slot. 
+                </li>
+                <li>
+                    Once the meeting room is booked it should send the meeting notification to all the users for the meeting. We should be able to update the meetings with the invitees and timing of the meeting and room also.
+                </li>
+            </ul>
     </p>
     <p align="center">
         <img src="/MeetingScheduler/docs/activity_diagram.png" alt="Activity Diagram">
