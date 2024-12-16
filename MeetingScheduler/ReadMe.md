@@ -18,7 +18,7 @@
             Queries the available room for the follwing parameters - (start_time, end_time,  capacity) - which should show the list of the available rooms with input slots.  Once the meeting rooms are available we can choose from the room of our own choice and book the calendar of that meeting room for that time slot. Once the meeting room is booked it should send the meeting notification to all the users for the meeting. We should be able to update the meetings with the invitees and timing of the meeting and room also.
     </p>
     <p align="center">
-        <img src="/docs/activity_diagram.png" alt="Activity Diagram">
+        <img src="/docs/activity_diagram.svg" alt="Activity Diagram">
             <br />
         Activity diagram for Meeting Scheduler
     </p>
