@@ -44,6 +44,9 @@ classDiagram
     - sendEmailToUsers(users: User[]): null
     }
 
+    MeetingScheduler *-- MeetingRoom: Composition 
+
+
     class MeetingRoom{
         - meetingRoomId: string
         - calendar: Calendar
@@ -53,6 +56,8 @@ classDiagram
         + addMeeting(meeting: Meeting): null
         + isAvailable(startTime: DateTime, endTime: DateTime): boolean
     }
+    
+    MeetingRoom ..> Calendar: Association
 
     class Calendar{
         - calendarId: string
@@ -62,6 +67,8 @@ classDiagram
         + checkAvailability(startTime: DateTime, endTime: DateTime): boolean
     }
 
+    Calendar *-- Meeting: Association
+    
     class Meeting{
         - meetingId: string
         - meetingRoomId: string
@@ -82,12 +89,15 @@ classDiagram
         + setEndTime(endTime: DateTime): self
     }
 
+    Meeting *-- User: Aggregation
+    
     class User{
         - userId: string
         - password: string
         - isAdmin: bool = False
     }
-    User <|-- Admin: Extends 
+
+    User <|-- Admin: Extends
     
     class Admin{
         - isAdmin: bool = True
