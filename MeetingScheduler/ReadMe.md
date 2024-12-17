@@ -56,8 +56,6 @@ classDiagram
         + addMeeting(meeting: Meeting): null
         + isAvailable(startTime: DateTime, endTime: DateTime): boolean
     }
-    
-    MeetingRoom --> Calendar: Association
 
     class Calendar{
         - calendarId: string
@@ -66,9 +64,23 @@ classDiagram
         + addMeetingToCalendar(meeting: Meeting): null
         + checkAvailability(startTime: DateTime, endTime: DateTime): boolean
     }
-
+    
+    MeetingRoom --> Calendar: Association
     Calendar *-- Meeting: Composition
     
+    class User{
+        - userId: string
+        - password: string
+        - isAdmin: bool = False
+    }
+
+    User <|-- Admin: Extends
+    
+    class Admin{
+        - isAdmin: bool = True
+        + addNewMeetingRoomToScheduler(meetingRoom: MeetingRoom): boolean
+    }
+
     class Meeting{
         - meetingId: string
         - meetingRoomId: string
@@ -90,19 +102,6 @@ classDiagram
     }
 
     Meeting o-- User: Aggregation
-    
-    class User{
-        - userId: string
-        - password: string
-        - isAdmin: bool = False
-    }
-
-    User <|-- Admin: Extends
-    
-    class Admin{
-        - isAdmin: bool = True
-        + addNewMeetingRoomToScheduler(meetingRoom: MeetingRoom): boolean
-    }
 ```
 
 
