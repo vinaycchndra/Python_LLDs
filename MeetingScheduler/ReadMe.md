@@ -44,7 +44,7 @@ classDiagram
     - sendEmailToUsers(users: User[]): null
     }
 
-    MeetingScheduler *-- MeetingRoom: Composition 
+    MeetingScheduler --> MeetingRoom: Association 
 
 
     class MeetingRoom{
