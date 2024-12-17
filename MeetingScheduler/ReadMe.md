@@ -33,6 +33,67 @@
         Activity diagram for Meeting Scheduler
     </p>
 
+<h3> Class Diagram </h3>
+
+```mermaid
+classDiagram
+    class MeetingScheduler{
+    - meetingRooms: Array~MeetingRooms~
+    + getAvailableMeetingRooms(startTime: DateTime, endTime: DateTime, capacity: int): MeetingRoom[]
+    + bookMeeting(startTime: DateTime, endTime: DateTime, listOfUsers: User[]): ParkingFloor[]
+    - sendEmailToUsers(users: User[]): null
+    }
+
+    class MeetingRoom{
+        - meetingRoomId: string
+        - calendar: Calendar
+        - capacity: integer
+        + getMeetingRoomCapacity(): integer
+        + getMeetingRoomId(): string
+        + addMeeting(meeting: Meeting): null
+        + isAvailable(startTime: DateTime, endTime: DateTime): boolean
+    }
+
+    class Calendar{
+        - calendarId: string
+        - meetingRoomId: string
+        - scheduledMeetings: Array~Meeting~
+        + addMeetingToCalendar(meeting: Meeting): null
+        + checkAvailability(startTime: DateTime, endTime: DateTime): boolean
+    }
+
+    class Meeting{
+        - meetingId: string
+        - meetingRoomId: string
+        - host: User
+        - invitees: Array~Users~
+        - description: string
+        - startTime: DateTime
+        - endTime: DateTime
+        + getMeetingId(): string
+        + getMeetingRoomId(): string
+        + getHost(): User
+        + getListOfInvitees(): User[]
+        + getDescription(): string
+        + setMeetingRoomId(meetingRoomId: string): self
+        + setHost(host: User): self
+        + addInvitee(user: User): self
+        + setStartTime(startTime: DateTime): self
+        + setEndTime(endTime: DateTime): self
+    }
+
+    class User{
+        - userId: string
+        - password: string
+        - isAdmin: bool = False
+    }
+    User <|-- Admin: Extends 
+    
+    class Admin{
+        - isAdmin: bool = True
+        + addNewMeetingRoomToScheduler(meetingRoom: MeetingRoom): boolean
+    }
+```
 
 
     
