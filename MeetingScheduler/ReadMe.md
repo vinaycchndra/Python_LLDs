@@ -57,7 +57,7 @@ classDiagram
         + isAvailable(startTime: DateTime, endTime: DateTime): boolean
     }
     
-    MeetingRoom ..> Calendar: Association
+    MeetingRoom --> Calendar: Association
 
     class Calendar{
         - calendarId: string
@@ -67,7 +67,7 @@ classDiagram
         + checkAvailability(startTime: DateTime, endTime: DateTime): boolean
     }
 
-    Calendar *-- Meeting: Association
+    Calendar *-- Meeting: Composition
     
     class Meeting{
         - meetingId: string
@@ -89,7 +89,7 @@ classDiagram
         + setEndTime(endTime: DateTime): self
     }
 
-    Meeting *-- User: Aggregation
+    Meeting o-- User: Aggregation
     
     class User{
         - userId: string
