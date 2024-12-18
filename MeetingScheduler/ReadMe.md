@@ -40,8 +40,8 @@ classDiagram
     class MeetingScheduler{
     - meetingRooms: Array~MeetingRooms~
     + getAvailableMeetingRooms(startTime: DateTime, endTime: DateTime, capacity: int): MeetingRoom[]
-    + bookMeeting(startTime: DateTime, endTime: DateTime, listOfUsers: User[]): ParkingFloor[]
-    - sendEmailToUsers(users: User[]): null
+    + bookMeeting(startTime: DateTime, endTime: DateTime, listOfUsers: User[]): Meeting
+    - sendEmailToUsers(users: User[]): boolean
     }
 
     MeetingScheduler --> MeetingRoom: Association 
