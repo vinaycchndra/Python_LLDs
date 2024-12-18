@@ -39,9 +39,11 @@
 classDiagram
     class MeetingScheduler{
     - meetingRooms: Array~MeetingRooms~
+    + getInstance(): self
     + getAvailableMeetingRooms(startTime: DateTime, endTime: DateTime, capacity: int): MeetingRoom[]
     + bookMeeting(startTime: DateTime, endTime: DateTime, listOfUsers: User[]): Meeting
     - sendEmailToUsers(users: User[]): boolean
+    + addMeetingRoom(meetingRoom: MeetingRoom, user: User): boolean
     }
 
     MeetingScheduler --> MeetingRoom: Association 
@@ -72,6 +74,7 @@ classDiagram
         - userId: string
         - password: string
         - isAdmin: bool = False
+        + isAdmin(): boolean
     }
 
     User <|-- Admin: Extends

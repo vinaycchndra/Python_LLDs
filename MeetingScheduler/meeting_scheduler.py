@@ -14,6 +14,9 @@ class MeetingScheduler:
     def __init__(self): 
         self._meetingRooms = []
     
+    def getInstance(self) -> "MeetingScheduler": 
+        return self._instance
+
     def getAvailableMeetingRooms(startTime: datetime, endTime: datetime, capacity: int) -> list[MeetingRoom]: 
         pass 
     
@@ -22,3 +25,14 @@ class MeetingScheduler:
     
     def _sendEmailToUsers(users: list[User]) -> bool: 
         pass
+
+    def addMeetingRoom(self, meetingRoom: MeetingRoom, user: User)->bool: 
+        if user.isAdmin(): 
+            if meetingRoom not in self._meetingRooms: 
+                self._meetingRooms.append(meetingRoom)
+                return True
+            print("Meeting room already exists.")
+        else:
+            print("you do not have permission to add meeting rooms")
+        
+        return False
