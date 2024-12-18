@@ -7,4 +7,6 @@
 
     Rate Limiter for various algorithms have been implemented. The notes and necessary information is present in notes.text file. Execute the main.py file to run the program in Rate_limiter repo.
 
+    Uml Diagrams Fundamentals: https://github.com/tssovi/grokking-the-object-oriented-design-interview
+
 
