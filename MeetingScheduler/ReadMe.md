@@ -42,12 +42,17 @@ classDiagram
     + getInstance(): self
     + getAvailableMeetingRooms(startTime: DateTime, endTime: DateTime, capacity: int): MeetingRoom[]
     + bookMeeting(startTime: DateTime, endTime: DateTime, listOfUsers: User[]): Meeting
-    - sendEmailToUsers(users: User[]): boolean
+    - sendEmailToUsers(users: User[], meeting: Meeting): boolean
+    - getInviteMailFormat(meeting: Meeting): str
     + addMeetingRoom(meetingRoom: MeetingRoom, user: User): boolean
     }
 
     MeetingScheduler --> MeetingRoom: Association 
+    MeetingScheduler --> EmailService: Association
 
+    class EmailService{
+        + sendEmailToUser(user: User, mail: str): null
+    }
 
     class MeetingRoom{
         - meetingRoomId: string
@@ -75,6 +80,8 @@ classDiagram
         - password: string
         - isAdmin: bool = False
         + isAdmin(): boolean
+        + getMail(message: string): null 
+        + getUserId(): string
     }
 
     User <|-- Admin: Extends
@@ -97,6 +104,7 @@ classDiagram
         + getHost(): User
         + getListOfInvitees(): User[]
         + getDescription(): string
+        + setDescription(): self
         + setMeetingRoomId(meetingRoomId: string): self
         + setHost(host: User): self
         + addInvitee(user: User): self

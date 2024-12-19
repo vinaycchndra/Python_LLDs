@@ -26,6 +26,10 @@ class Meeting:
     def getDescription(self) -> str: 
         return self._description
     
+    def setDescription(self, description : str) -> "Meeting": 
+        self._description = description
+        return self
+    
     def setMeetingRoomId(self, meetingRoomId: str) -> "Meeting": 
         self._meetingRoomId  = meetingRoomId
         return self
@@ -49,3 +53,8 @@ class Meeting:
         self._endTime = endTime
         return self
     
+    def getStartTime(self) -> datetime:
+        return self._startTime 
+    
+    def getEndTime(self) -> datetime:
+        return self._endTime
