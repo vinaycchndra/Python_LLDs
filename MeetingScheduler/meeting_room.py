@@ -1,4 +1,4 @@
-from calendar import Calendar
+from basic_calendar import Calendar
 from datetime import datetime
 
 class MeetingRoom: 
@@ -13,5 +13,11 @@ class MeetingRoom:
     def getMeetingRoomCapacity(self) -> int: 
         return self._capacity
     
+    def addMeeting(self, meeting) -> bool:
+        if self._calendar.checkAvailability(startTime= meeting.getStartTime(), endTime= meeting.getEndTime()):
+            self._calendar.addMeetingToCalendar(meeting)
+            return True
+        return False
+
     def isAvailable(self,startTime: datetime, endTime: datetime) -> bool: 
-        return True
+        return self._calendar.checkAvailability(startTime= startTime, endTime= endTime)

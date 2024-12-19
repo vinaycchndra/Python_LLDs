@@ -55,7 +55,7 @@ classDiagram
         - capacity: integer
         + getMeetingRoomCapacity(): integer
         + getMeetingRoomId(): string
-        + addMeeting(meeting: Meeting): null
+        + addMeeting(meeting: Meeting): boolean
         + isAvailable(startTime: DateTime, endTime: DateTime): boolean
     }
 
@@ -102,6 +102,8 @@ classDiagram
         + addInvitee(user: User): self
         + setStartTime(startTime: DateTime): self
         + setEndTime(endTime: DateTime): self
+        + getStartTime(): datetime
+        + getEndTime(): datetime
     }
 
     Meeting o-- User: Aggregation
