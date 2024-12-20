@@ -1,9 +1,37 @@
 import unittest
 from meeting import Meeting
 from basic_calendar import Calendar
+from account.user import User
 from datetime import datetime, timedelta
 
+
 class TestMeetingScheduler(unittest.TestCase): 
+    def test_meeting(self): 
+        meeting_id = "meeting_1"
+        meeting_room_id = "meeting_room_1"
+        host = User(password="user@123", userId = "user")
+        invitee_1 = User(password="user1@123", userId = "user1")
+        invitee_2 = User(password="user2@123", userId = "user2")
+        invitee_3 = User(password="user3@123", userId = "user3")
+        invitee_4 = User(password="user4@123", userId = "user4")
+        invitee_5 = User(password="user5@123", userId = "user5")
+        description = "Discussion on architecture design of the product."
+        start_time = datetime.now()
+        end_time = start_time+timedelta(hours=1)
+        meeting = Meeting(meetingId=meeting_id)
+        meeting.setStartTime(startTime=start_time).setEndTime(endTime=end_time).\
+        setDescription(description=description).setMeetingRoomId(meetingRoomId=meeting_room_id).\
+        setHost(host=host).addInvitee(user=invitee_1).addInvitee(user=invitee_2).addInvitee(user=invitee_3)\
+        .addInvitee(user=invitee_4).addInvitee(user=invitee_5)
+
+        self.assertEqual(start_time, meeting.getStartTime())
+        self.assertEqual(end_time, meeting.getEndTime())
+        self.assertEqual(host, meeting.getHost())
+        self.assertEqual(description, meeting.getDescription())
+        self.assertEqual(set([invitee_1, invitee_2, invitee_3, invitee_4, invitee_4, invitee_5]), set(meeting.getListOfInvitees()))    
+
+
+
     def test_calendar(self): 
         calendar = Calendar(calendarId="calendar_1", meetingRoomId="meeting_room_1")
         
