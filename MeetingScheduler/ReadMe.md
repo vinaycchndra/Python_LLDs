@@ -70,6 +70,7 @@ classDiagram
         - scheduledMeetings: Array~Meeting~
         + addMeetingToCalendar(meeting: Meeting): null
         + checkAvailability(startTime: DateTime, endTime: DateTime): boolean
+        + getScheduledMeetings(): Meeting[]
     }
     
     MeetingRoom --> Calendar: Association

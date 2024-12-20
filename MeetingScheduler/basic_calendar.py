@@ -14,7 +14,10 @@ class Calendar:
         # Using brute force approach for looking into the overlapping intervals 
         # we check for incoming event to be non overlapping with every meeting event existing in the calendar
         for meeting in self._scheduledMeetings: 
-            if  not (meeting.getStartTime() <= endTime or meeting.getEndTime() > startTime): 
+            if  not (meeting.getStartTime() >= endTime or meeting.getEndTime() <= startTime): 
                 # overlapping events.
                 return False
         return True
+
+    def getScheduledMeetings(self) -> list[Meeting]: 
+        return self._scheduledMeetings
