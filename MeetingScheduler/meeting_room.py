@@ -21,3 +21,6 @@ class MeetingRoom:
 
     def isAvailable(self,startTime: datetime, endTime: datetime) -> bool: 
         return self._calendar.checkAvailability(startTime= startTime, endTime= endTime)
+
+    def getScheduledMeetings(self):
+        return self._calendar.getScheduledMeetings()

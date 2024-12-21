@@ -62,6 +62,7 @@ classDiagram
         + getMeetingRoomId(): string
         + addMeeting(meeting: Meeting): boolean
         + isAvailable(startTime: DateTime, endTime: DateTime): boolean
+        + getScheduledMeetings(): Meeting[]
     }
 
     class Calendar{
@@ -83,6 +84,7 @@ classDiagram
         + isAdmin(): boolean
         + getMail(message: string): null 
         + getUserId(): string
+        + getMyMails(): list[str]
     }
 
     User <|-- Admin: Extends
