@@ -13,3 +13,6 @@ class User:
 
     def getUserId(self) -> str: 
         return self._userId
+    
+    def getMyMails(self) -> list[str]:
+        return self._inbox

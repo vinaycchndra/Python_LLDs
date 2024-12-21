@@ -2,6 +2,8 @@ import unittest
 from meeting import Meeting
 from basic_calendar import Calendar
 from account.user import User
+from meeting_room import MeetingRoom
+from email_service import EmailService
 from datetime import datetime, timedelta
 
 
@@ -29,8 +31,6 @@ class TestMeetingScheduler(unittest.TestCase):
         self.assertEqual(host, meeting.getHost())
         self.assertEqual(description, meeting.getDescription())
         self.assertEqual(set([invitee_1, invitee_2, invitee_3, invitee_4, invitee_4, invitee_5]), set(meeting.getListOfInvitees()))    
-
-
 
     def test_calendar(self): 
         calendar = Calendar(calendarId="calendar_1", meetingRoomId="meeting_room_1")
@@ -67,6 +67,41 @@ class TestMeetingScheduler(unittest.TestCase):
         start_time_5 = end_time_2
         end_time_5   = start_time_5+timedelta(minutes=40)
         self.assertEqual(calendar.checkAvailability(startTime=start_time_5, endTime=end_time_5), True)
-            
+    
+    def test_meetingRoom(self):
+        meeting_room_id = "meeting_room_1"
+        meeting_room_capacity = 10
+        calendar = Calendar(calendarId="calendar_1", meetingRoomId=meeting_room_id) 
+        meeting_room_1 = MeetingRoom(meetingRoomId=meeting_room_id, calendar=calendar, capacity=meeting_room_capacity)
+        
+        meeting = Meeting(meetingId="meeting")
+        start_time = datetime.now()
+        end_time= start_time+timedelta(hours=1, minutes=30)
+        meeting.setStartTime(startTime=start_time).setEndTime(endTime=end_time)
+        
+        self.assertEqual(meeting_room_id, meeting_room_1.getMeetingRoomId())
+        self.assertEqual(meeting_room_capacity, meeting_room_1.getMeetingRoomCapacity())
+        self.assertEqual(True, meeting_room_1.isAvailable(startTime=start_time, endTime=end_time))    
+        
+        meeting_room_1.addMeeting(meeting=meeting)
+        self.assertFalse(meeting_room_1.isAvailable(startTime=start_time, endTime=end_time))
+
+    def test_EmailService(self): 
+        email_service = EmailService()
+        
+        user1 = User(password="user1@123", userId = "user1")
+        user2 = User(password="user2@123", userId = "user2")
+        user3 = User(password="user3@123", userId = "user3")
+        description = "Discussion on architecture design of the product."
+        email_service.sendEmailToUser(user1, mail=description)
+        email_service.sendEmailToUser(user2, mail=description)
+        email_service.sendEmailToUser(user3, mail=description)
+        
+        self.assertEqual(user1.getMyMails(), [description])
+        self.assertEqual(user2.getMyMails(), [description])
+        self.assertEqual(user3.getMyMails(), [description])
+
+
+
 if __name__ == "__main__": 
     unittest.main()
