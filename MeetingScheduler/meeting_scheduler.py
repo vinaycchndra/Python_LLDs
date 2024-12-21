@@ -16,9 +16,9 @@ class MeetingScheduler:
     def __init__(self): 
         self._meetingRooms = []
         self._mailService = EmailService()
-    
-    def getInstance(self) -> "MeetingScheduler": 
-        return self._instance
+    @classmethod
+    def getInstance(cls) -> "MeetingScheduler": 
+        return cls._instance
 
     def getAvailableMeetingRooms(self, startTime: datetime, endTime: datetime, capacity: int) -> list[MeetingRoom]: 
         available_meeting_rooms = []
@@ -29,11 +29,18 @@ class MeetingScheduler:
     
     def bookMeeting(self, host: User, meetingRoom: MeetingRoom, startTime: datetime, endTime: datetime, description: str, listOfUsers: list[User]) -> Meeting: 
         meeting = Meeting(meetingId= uuid4())
-        meeting.setMeetingRoomId(meetingRoom.addMeeting()).setHost(host = host).setStartTime(startTime=startTime).setEndTime(endTime=endTime).setDescription(description=description)
+        if meetingRoom.getMeetingRoomCapacity() < listOfUsers.__len__(): 
+            raise Exception(f"Meeting room can not hold {listOfUsers.__len__()} people")
+        
+        meeting.setMeetingRoomId(meetingRoomId=meetingRoom.getMeetingRoomId()).setHost(host = host).setStartTime(startTime=startTime).setEndTime(endTime=endTime).setDescription(description=description)
+        
         for invitee in listOfUsers: 
             meeting.addInvitee(invitee)
-        meetingRoom.addMeeting(meeting=meeting)     
+
+        if not meetingRoom.addMeeting(meeting=meeting): 
+            raise Exception("Meeting room not available for the input time period.")     
         self._sendEmailToUsers(users = listOfUsers, meeting=meeting)   
+        
         return meeting
     
     def _sendEmailToUsers(self, users: list[User], meeting: Meeting) -> bool: 
@@ -57,4 +64,5 @@ class MeetingScheduler:
                     start time: {meeting.getStartTime()}
                     end time: {meeting.getEndTime()}
                     meeting room: {meeting.getMeetingRoomId()}
+                    topic: {meeting.getDescription()}
             ''' 

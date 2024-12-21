@@ -2,10 +2,11 @@ import unittest
 from meeting import Meeting
 from basic_calendar import Calendar
 from account.user import User
+from account.admin import Admin
 from meeting_room import MeetingRoom
 from email_service import EmailService
+from meeting_scheduler import MeetingScheduler
 from datetime import datetime, timedelta
-
 
 class TestMeetingScheduler(unittest.TestCase): 
     def test_meeting(self): 
@@ -101,7 +102,65 @@ class TestMeetingScheduler(unittest.TestCase):
         self.assertEqual(user2.getMyMails(), [description])
         self.assertEqual(user3.getMyMails(), [description])
 
+    def test_MeetingScheduler(self): 
 
+        user1 = User(password="user1@123", userId = "user1")
+        user2 = User(password="user2@123", userId = "user2")
+        user3 = User(password="user3@123", userId = "user3")
+        user4 = User(password="user4@123", userId = "user4")
+        user5 = User(password="user5@123", userId = "user5")
+        user6 = User(password="user6@123", userId = "user6")
+        user7 = User(password="user7@123", userId = "user7")
+        user8 = User(password="user8@123", userId = "user8")
+        user9 = User(password="user9@123", userId = "user9")
+        user10 = User(password="user10@123", userId = "user10")
+        user_list = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10]
 
+        calendar_1 = Calendar(calendarId="calendar_1", meetingRoomId="meeting_room_1") 
+        meeting_room_1 = MeetingRoom(meetingRoomId="meeting_room_1", calendar=calendar_1, capacity=4)
+        
+        calendar_2 = Calendar(calendarId="calendar_2", meetingRoomId="meeting_room_2") 
+        meeting_room_2 = MeetingRoom(meetingRoomId="meeting_room_2", calendar=calendar_2, capacity=5)
+        
+        calendar_3 = Calendar(calendarId="calendar_3", meetingRoomId="meeting_room_3") 
+        meeting_room_3 = MeetingRoom(meetingRoomId="meeting_room_3", calendar=calendar_3, capacity=5)
+
+        calendar_4 = Calendar(calendarId="calendar_4", meetingRoomId="meeting_room_4") 
+        meeting_room_4 = MeetingRoom(meetingRoomId="meeting_room_4", calendar=calendar_4, capacity=6)
+
+        calendar_5 = Calendar(calendarId="calendar_5", meetingRoomId="meeting_room_5") 
+        meeting_room_5 = MeetingRoom(meetingRoomId="meeting_room_5", calendar=calendar_5, capacity=8)
+
+        calendar_6 = Calendar(calendarId="calendar_6", meetingRoomId="meeting_room_6") 
+        meeting_room_6 = MeetingRoom(meetingRoomId="meeting_room_6", calendar=calendar_6, capacity=10)        
+        
+        
+        meeting_scheduler =  MeetingScheduler()
+        # Testing singleton method use.
+        self.assertEqual(meeting_scheduler.getInstance(), MeetingScheduler())
+        
+        admin = Admin(userId="admin", password="admin@123")
+        self.assertTrue(admin.addNewMeetingRoomToScheduler(meetingRoom = meeting_room_1))
+        self.assertTrue(admin.addNewMeetingRoomToScheduler(meetingRoom = meeting_room_2))
+        self.assertTrue(admin.addNewMeetingRoomToScheduler(meetingRoom = meeting_room_3))
+        self.assertTrue(admin.addNewMeetingRoomToScheduler(meetingRoom = meeting_room_4))
+        self.assertTrue(admin.addNewMeetingRoomToScheduler(meetingRoom = meeting_room_5))
+        self.assertTrue(admin.addNewMeetingRoomToScheduler(meetingRoom = meeting_room_6))
+
+        # Only 5 meeting rooms should be available out of 6 for 5 people meeting
+        self.assertEqual(5, meeting_scheduler.getAvailableMeetingRooms(startTime=datetime.now(), endTime=datetime.now()+timedelta(hours=1), capacity=5).__len__())
+        self.assertEqual(6, meeting_scheduler.getAvailableMeetingRooms(startTime=datetime.now(), endTime=datetime.now()+timedelta(hours=1), capacity=4).__len__())
+        self.assertEqual(2, meeting_scheduler.getAvailableMeetingRooms(startTime=datetime.now(), endTime=datetime.now()+timedelta(hours=1), capacity=8).__len__())
+
+        # meeting 1 
+        start_time = datetime.now()
+        end_time = start_time+timedelta(hours=1)
+
+        meeting_1_scheduled = meeting_scheduler.bookMeeting(host = user1, meetingRoom=meeting_room_6, startTime=start_time, endTime=end_time, description="client meeting", listOfUsers=user_list)
+        self.assertEqual(meeting_1_scheduled.getListOfInvitees(), user_list)
+        self.assertEqual(meeting_1_scheduled.getHost(), user1)
+        self.assertRaises(Exception, meeting_scheduler.bookMeeting, user1, meeting_room_6, start_time, end_time, "client meeting", user_list)
+        self.assertEqual(5, meeting_scheduler.getAvailableMeetingRooms(startTime=start_time, endTime=end_time, capacity=4).__len__())
+        
 if __name__ == "__main__": 
     unittest.main()

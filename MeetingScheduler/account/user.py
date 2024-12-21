@@ -16,3 +16,6 @@ class User:
     
     def getMyMails(self) -> list[str]:
         return self._inbox
+    
+    def _setUserAsAdmin(self): 
+        self._isAdmin = True
