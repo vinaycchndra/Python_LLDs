@@ -9,4 +9,6 @@
 
     Uml Diagrams Fundamentals: https://github.com/tssovi/grokking-the-object-oriented-design-interview
 
+    Parking lot and meeting scheduler lld.
+
 
