@@ -15,4 +15,4 @@ basic design points to consider:
 - will use chain of responsibility design pattern since we have different log levels which also has hierarchy
 - So we should have a Log manager to create the chain of responsibility for the different logger 
 - we will have an abstract logger handler and the child classes will be the info logger, debug logger, warning logger, error logger, critical logger etc
-- we will use observer design pattern to sinc the message for the logs
+- we will use observer design pattern to sync the message for the logs
