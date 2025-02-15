@@ -1,0 +1,2 @@
+class LogObserver:
+    pass
