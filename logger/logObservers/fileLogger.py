@@ -1,4 +1,4 @@
-from abstractLogObserver import AbstractLogObserver
+from .abstractLogObserver import AbstractLogObserver
 
 class FileLogger(AbstractLogObserver):
     __instance = None

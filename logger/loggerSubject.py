@@ -3,13 +3,13 @@ from loggerEnum import LogLevel
 class LoggerSubject: 
     def __init__(self):
         self._log_level_to_log_observers = { 
-                                                LogLevel.CRITICAL: [], 
-                                                LogLevel.DEBUG: [],
-                                                LogLevel.ERROR: [], 
-                                                LogLevel.INFO: [],
-                                                LogLevel.WARNING: []     
-                                        }
-        
+                                                    LogLevel.CRITICAL: [], 
+                                                    LogLevel.DEBUG: [],
+                                                    LogLevel.ERROR: [], 
+                                                    LogLevel.INFO: [],
+                                                    LogLevel.WARNING: []     
+                                            }
+            
     def addObserver(self, log_level: str, log_observer):
         log_level_observer_list = self._log_level_to_log_observers.get(log_level)    
         is_observer_already_added = False

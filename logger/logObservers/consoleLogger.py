@@ -1,4 +1,4 @@
-from abstractLogObserver import AbstractLogObserver
+from .abstractLogObserver import AbstractLogObserver
 
 class ConsoleLogger(AbstractLogObserver):
     __instance = None
