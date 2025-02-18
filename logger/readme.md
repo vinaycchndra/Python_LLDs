@@ -16,3 +16,63 @@ basic design points to consider:
 - So we should have a Log manager to create the chain of responsibility for the different logger 
 - we will have an abstract logger handler and the child classes will be the info logger, debug logger, warning logger, error logger, critical logger etc
 - we will use observer design pattern to sync the message for the logs
+
+
+
+```mermaid
+classDiagram
+
+class LogLevel{
+    <<enumeration>>
+        CRITICAL
+        ERROR
+        WARNING
+        INFO
+        DEBUG
+}
+
+class AbstractLogger{
+    <<abstract>>
+    - my_log_level: LogLevel
+    + setNextLogger(next_level_logger: AbstractLogger)
+    + logMessage(log_level: LogLevel, log_message: string, logger_subject: LoggerSubject)
+
+    + routeMessage(message: string, logger_subject: LoggerSubject)
+    + get_log_level(): LogLevel
+}
+class DebugLogger {
+    + next_level_logger: AbstractLogger
+    
+    + routeMessage(message: string, logger_subject: LoggerSubject)
+} 
+
+class InfoLogger {
+    + next_level_logger: AbstractLogger
+    
+    + routeMessage(message: string, logger_subject: LoggerSubject)
+} 
+
+class WarningLogger {
+    + next_level_logger: AbstractLogger
+    
+    + routeMessage(message: string, logger_subject: LoggerSubject)
+} 
+
+class ErrorLogger {
+    + next_level_logger: AbstractLogger
+    
+    + routeMessage(message: string, logger_subject: LoggerSubject)
+} 
+
+class CriticalLogger {
+    + next_level_logger: AbstractLogger
+    
+    + routeMessage(message: string, logger_subject: LoggerSubject)
+} 
+AbstractLogger ..> LogLevel: Dependency
+AbstractLogger <|-- DebugLogger: Extends
+AbstractLogger <|-- InfoLogger: Extends
+AbstractLogger <|-- WarningLogger: Extends
+AbstractLogger <|-- ErrorLogger: Extends
+AbstractLogger <|-- CriticalLogger: Extends
+```
