@@ -40,6 +40,33 @@ class AbstractLogger{
     + routeMessage(message: string, logger_subject: LoggerSubject)
     + get_log_level(): LogLevel
 }
+
+class AbstractLogObserver{
+    <<abstract>>
+    + log(message: string)
+}
+
+class ConsoleLogger{
+    # instance: ConsoleLogger
+}
+
+class FileLogger{
+    # instance: FileLogger
+    - file_address: string
+}
+
+AbstractLogObserver <|-- ConsoleLogger: Extends
+AbstractLogObserver <|-- FileLogger: Extends
+
+class LoggerSubject {
+    - log_level_to_log_observers: json
+    + addObserver(log_level: LogLevel, log_observer: AbstractLogObserver)
+    + notify_all_observers(log_level: LogLevel, message: string)
+}
+
+LoggerSubject ..> LogLevel: Dependency
+LoggerSubject ..> AbstractLogObserver: Dependency
+
 class DebugLogger {
     + next_level_logger: AbstractLogger
     
@@ -65,10 +92,10 @@ class ErrorLogger {
 } 
 
 class CriticalLogger {
-    + next_level_logger: AbstractLogger
-    
+    + next_level_logger: AbstractLogger    
     + routeMessage(message: string, logger_subject: LoggerSubject)
 } 
+
 AbstractLogger ..> LogLevel: Dependency
 AbstractLogger <|-- DebugLogger: Extends
 AbstractLogger <|-- InfoLogger: Extends
